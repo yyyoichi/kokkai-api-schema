@@ -8,12 +8,29 @@ paths:
     get:
       operationId: Api_meeting
       parameters:
-        - name: query
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/SearchParams'
-          explode: false
+        - $ref: '#/components/parameters/SearchParams.startRecord'
+        - $ref: '#/components/parameters/SearchParams.maximumRecords'
+        - $ref: '#/components/parameters/SearchParams.nameOfHouse'
+        - $ref: '#/components/parameters/SearchParams.nameOfMeeting'
+        - $ref: '#/components/parameters/SearchParams.any'
+        - $ref: '#/components/parameters/SearchParams.speaker'
+        - $ref: '#/components/parameters/SearchParams.from'
+        - $ref: '#/components/parameters/SearchParams.until'
+        - $ref: '#/components/parameters/SearchParams.supplementAndAppendix'
+        - $ref: '#/components/parameters/SearchParams.contentsAndIndex'
+        - $ref: '#/components/parameters/SearchParams.searchRange'
+        - $ref: '#/components/parameters/SearchParams.closing'
+        - $ref: '#/components/parameters/SearchParams.speechNumber'
+        - $ref: '#/components/parameters/SearchParams.speakerPosition'
+        - $ref: '#/components/parameters/SearchParams.speakerGroup'
+        - $ref: '#/components/parameters/SearchParams.speakerRole'
+        - $ref: '#/components/parameters/SearchParams.speechID'
+        - $ref: '#/components/parameters/SearchParams.issueID'
+        - $ref: '#/components/parameters/SearchParams.sessionFrom'
+        - $ref: '#/components/parameters/SearchParams.sessionTo'
+        - $ref: '#/components/parameters/SearchParams.issueFrom'
+        - $ref: '#/components/parameters/SearchParams.issueTo'
+        - $ref: '#/components/parameters/SearchParams.recordPacking'
       responses:
         '200':
           description: The request has succeeded.
@@ -25,12 +42,29 @@ paths:
     get:
       operationId: Api_meetingList
       parameters:
-        - name: query
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/SearchParams'
-          explode: false
+        - $ref: '#/components/parameters/SearchParams.startRecord'
+        - $ref: '#/components/parameters/SearchParams.maximumRecords'
+        - $ref: '#/components/parameters/SearchParams.nameOfHouse'
+        - $ref: '#/components/parameters/SearchParams.nameOfMeeting'
+        - $ref: '#/components/parameters/SearchParams.any'
+        - $ref: '#/components/parameters/SearchParams.speaker'
+        - $ref: '#/components/parameters/SearchParams.from'
+        - $ref: '#/components/parameters/SearchParams.until'
+        - $ref: '#/components/parameters/SearchParams.supplementAndAppendix'
+        - $ref: '#/components/parameters/SearchParams.contentsAndIndex'
+        - $ref: '#/components/parameters/SearchParams.searchRange'
+        - $ref: '#/components/parameters/SearchParams.closing'
+        - $ref: '#/components/parameters/SearchParams.speechNumber'
+        - $ref: '#/components/parameters/SearchParams.speakerPosition'
+        - $ref: '#/components/parameters/SearchParams.speakerGroup'
+        - $ref: '#/components/parameters/SearchParams.speakerRole'
+        - $ref: '#/components/parameters/SearchParams.speechID'
+        - $ref: '#/components/parameters/SearchParams.issueID'
+        - $ref: '#/components/parameters/SearchParams.sessionFrom'
+        - $ref: '#/components/parameters/SearchParams.sessionTo'
+        - $ref: '#/components/parameters/SearchParams.issueFrom'
+        - $ref: '#/components/parameters/SearchParams.issueTo'
+        - $ref: '#/components/parameters/SearchParams.recordPacking'
       responses:
         '200':
           description: The request has succeeded.
@@ -42,12 +76,29 @@ paths:
     get:
       operationId: Api_speech
       parameters:
-        - name: query
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/SearchParams'
-          explode: false
+        - $ref: '#/components/parameters/SearchParams.startRecord'
+        - $ref: '#/components/parameters/SearchParams.maximumRecords'
+        - $ref: '#/components/parameters/SearchParams.nameOfHouse'
+        - $ref: '#/components/parameters/SearchParams.nameOfMeeting'
+        - $ref: '#/components/parameters/SearchParams.any'
+        - $ref: '#/components/parameters/SearchParams.speaker'
+        - $ref: '#/components/parameters/SearchParams.from'
+        - $ref: '#/components/parameters/SearchParams.until'
+        - $ref: '#/components/parameters/SearchParams.supplementAndAppendix'
+        - $ref: '#/components/parameters/SearchParams.contentsAndIndex'
+        - $ref: '#/components/parameters/SearchParams.searchRange'
+        - $ref: '#/components/parameters/SearchParams.closing'
+        - $ref: '#/components/parameters/SearchParams.speechNumber'
+        - $ref: '#/components/parameters/SearchParams.speakerPosition'
+        - $ref: '#/components/parameters/SearchParams.speakerGroup'
+        - $ref: '#/components/parameters/SearchParams.speakerRole'
+        - $ref: '#/components/parameters/SearchParams.speechID'
+        - $ref: '#/components/parameters/SearchParams.issueID'
+        - $ref: '#/components/parameters/SearchParams.sessionFrom'
+        - $ref: '#/components/parameters/SearchParams.sessionTo'
+        - $ref: '#/components/parameters/SearchParams.issueFrom'
+        - $ref: '#/components/parameters/SearchParams.issueTo'
+        - $ref: '#/components/parameters/SearchParams.recordPacking'
       responses:
         '200':
           description: The request has succeeded.
@@ -56,6 +107,202 @@ paths:
               schema:
                 $ref: '#/components/schemas/SpeechResponse'
 components:
+  parameters:
+    SearchParams.any:
+      name: any
+      in: query
+      required: false
+      description: 発言部分を検索対象とするキーワードを指定します。複数語はスペース区切りでAND検索になります。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.closing:
+      name: closing
+      in: query
+      required: false
+      description: 閉会中の会議録を限定検索するかを指定します。省略時はfalse（限定しない）となります。
+      schema:
+        type: boolean
+      explode: false
+    SearchParams.contentsAndIndex:
+      name: contentsAndIndex
+      in: query
+      required: false
+      description: 目次・索引を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。
+      schema:
+        type: boolean
+      explode: false
+    SearchParams.from:
+      name: from
+      in: query
+      required: false
+      description: 開催日付の範囲開始日をYYYY-MM-DD形式で指定します。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.issueFrom:
+      name: issueFrom
+      in: query
+      required: false
+      description: 号数の開始号を指定します。省略可。
+      schema:
+        type: integer
+        format: int32
+      explode: false
+    SearchParams.issueID:
+      name: issueID
+      in: query
+      required: false
+      description: 会議録IDを21桁の英数字で指定します。完全一致検索。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.issueTo:
+      name: issueTo
+      in: query
+      required: false
+      description: 号数の終了号を指定します。省略可。
+      schema:
+        type: integer
+        format: int32
+      explode: false
+    SearchParams.maximumRecords:
+      name: maximumRecords
+      in: query
+      required: false
+      description: 返戻件数の最大数を指定します。（会議単位簡易出力・発言単位出力:1～100、会議単位出力:1～10）。省略時はデフォルト件数で返戻します。
+      schema:
+        type: integer
+        format: int32
+      explode: false
+    SearchParams.nameOfHouse:
+      name: nameOfHouse
+      in: query
+      required: false
+      description: 検索対象の院名を指定します。省略可。
+      schema:
+        $ref: '#/components/schemas/NameOfHouse'
+      explode: false
+    SearchParams.nameOfMeeting:
+      name: nameOfMeeting
+      in: query
+      required: false
+      description: 検索対象の会議名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.recordPacking:
+      name: recordPacking
+      in: query
+      required: false
+      description: 応答形式を指定します。'xml'または'json'。省略時は'json'となります。
+      schema:
+        type: string
+        enum:
+          - json
+          - xml
+        default: json
+      explode: false
+    SearchParams.searchRange:
+      name: searchRange
+      in: query
+      required: false
+      description: 検索対象箇所を指定します。"冒頭","本文","冒頭・本文"のいずれかを指定可能です。省略時は"冒頭・本文"となります。
+      schema:
+        $ref: '#/components/schemas/SearchRange'
+      explode: false
+    SearchParams.sessionFrom:
+      name: sessionFrom
+      in: query
+      required: false
+      description: 国会回次の開始回を指定します。省略可。
+      schema:
+        type: integer
+        format: int32
+      explode: false
+    SearchParams.sessionTo:
+      name: sessionTo
+      in: query
+      required: false
+      description: 国会回次の終了回を指定します。省略可。
+      schema:
+        type: integer
+        format: int32
+      explode: false
+    SearchParams.speaker:
+      name: speaker
+      in: query
+      required: false
+      description: 発言者名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.speakerGroup:
+      name: speakerGroup
+      in: query
+      required: false
+      description: 発言者所属会派を部分一致で指定します。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.speakerPosition:
+      name: speakerPosition
+      in: query
+      required: false
+      description: 発言者肩書きを部分一致で指定します。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.speakerRole:
+      name: speakerRole
+      in: query
+      required: false
+      description: 発言者役割を指定します。"証人","参考人","公述人"のいずれかを指定可能です。省略可。
+      schema:
+        $ref: '#/components/schemas/SpeakerRole'
+      explode: false
+    SearchParams.speechID:
+      name: speechID
+      in: query
+      required: false
+      description: 発言IDを"issueID_発言番号"形式で指定します。完全一致検索。省略可。
+      schema:
+        type: string
+      explode: false
+    SearchParams.speechNumber:
+      name: speechNumber
+      in: query
+      required: false
+      description: 発言番号を整数で指定します。完全一致検索。省略可。
+      schema:
+        type: integer
+        format: int32
+      explode: false
+    SearchParams.startRecord:
+      name: startRecord
+      in: query
+      required: false
+      description: 検索結果の開始位置を指定します。省略時は1が指定されたものとして検索します。
+      schema:
+        type: integer
+        format: int32
+      explode: false
+    SearchParams.supplementAndAppendix:
+      name: supplementAndAppendix
+      in: query
+      required: false
+      description: 追録・附録を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。
+      schema:
+        type: boolean
+      explode: false
+    SearchParams.until:
+      name: until
+      in: query
+      required: false
+      description: 開催日付の範囲終了日をYYYY-MM-DD形式で指定します。省略可。
+      schema:
+        type: string
+      explode: false
   schemas:
     ErrorResponse:
       type: object
@@ -358,92 +605,6 @@ components:
         - 両院
         - 両院協議会
       description: 院名
-    SearchParams:
-      type: object
-      properties:
-        startRecord:
-          type: integer
-          format: int32
-          description: 検索結果の開始位置を指定します。省略時は1が指定されたものとして検索します。
-        maximumRecords:
-          type: integer
-          format: int32
-          description: 返戻件数の最大数を指定します。（会議単位簡易出力・発言単位出力:1～100、会議単位出力:1～10）。省略時はデフォルト件数で返戻します。
-        nameOfHouse:
-          allOf:
-            - $ref: '#/components/schemas/NameOfHouse'
-          description: 検索対象の院名を指定します。省略可。
-        nameOfMeeting:
-          type: string
-          description: 検索対象の会議名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。
-        any:
-          type: string
-          description: 発言部分を検索対象とするキーワードを指定します。複数語はスペース区切りでAND検索になります。省略可。
-        speaker:
-          type: string
-          description: 発言者名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。
-        from:
-          type: string
-          description: 開催日付の範囲開始日をYYYY-MM-DD形式で指定します。省略可。
-        until:
-          type: string
-          description: 開催日付の範囲終了日をYYYY-MM-DD形式で指定します。省略可。
-        supplementAndAppendix:
-          type: boolean
-          description: 追録・附録を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。
-        contentsAndIndex:
-          type: boolean
-          description: 目次・索引を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。
-        searchRange:
-          allOf:
-            - $ref: '#/components/schemas/SearchRange'
-          description: 検索対象箇所を指定します。"冒頭","本文","冒頭・本文"のいずれかを指定可能です。省略時は"冒頭・本文"となります。
-        closing:
-          type: boolean
-          description: 閉会中の会議録を限定検索するかを指定します。省略時はfalse（限定しない）となります。
-        speechNumber:
-          type: integer
-          format: int32
-          description: 発言番号を整数で指定します。完全一致検索。省略可。
-        speakerPosition:
-          type: string
-          description: 発言者肩書きを部分一致で指定します。省略可。
-        speakerGroup:
-          type: string
-          description: 発言者所属会派を部分一致で指定します。省略可。
-        speakerRole:
-          allOf:
-            - $ref: '#/components/schemas/SpeakerRole'
-          description: 発言者役割を指定します。"証人","参考人","公述人"のいずれかを指定可能です。省略可。
-        speechID:
-          type: string
-          description: 発言IDを"issueID_発言番号"形式で指定します。完全一致検索。省略可。
-        issueID:
-          type: string
-          description: 会議録IDを21桁の英数字で指定します。完全一致検索。省略可。
-        sessionFrom:
-          type: integer
-          format: int32
-          description: 国会回次の開始回を指定します。省略可。
-        sessionTo:
-          type: integer
-          format: int32
-          description: 国会回次の終了回を指定します。省略可。
-        issueFrom:
-          type: integer
-          format: int32
-          description: 号数の開始号を指定します。省略可。
-        issueTo:
-          type: integer
-          format: int32
-          description: 号数の終了号を指定します。省略可。
-        recordPacking:
-          type: string
-          enum:
-            - json
-            - xml
-          description: 応答形式を指定します。'xml'または'json'。省略時は'json'となります。
-          default: json
     SearchRange:
       type: string
       enum:

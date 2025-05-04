@@ -37,50 +37,73 @@ enum ImageKind {
 }
 
 model SearchParams {
+  @query
   @doc("検索結果の開始位置を指定します。省略時は1が指定されたものとして検索します。")
   startRecord?: int32;
+  @query
   @doc("返戻件数の最大数を指定します。（会議単位簡易出力・発言単位出力:1～100、会議単位出力:1～10）。省略時はデフォルト件数で返戻します。")
   maximumRecords?: int32;
+  @query
   @doc("検索対象の院名を指定します。省略可。")
   nameOfHouse?: NameOfHouse;
+  @query
   @doc("検索対象の会議名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。")
   nameOfMeeting?: string;
+  @query
   @doc("発言部分を検索対象とするキーワードを指定します。複数語はスペース区切りでAND検索になります。省略可。")
   any?: string;
+  @query
   @doc("発言者名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。")
   speaker?: string;
+  @query
   @doc("開催日付の範囲開始日をYYYY-MM-DD形式で指定します。省略可。")
   from?: string;
+  @query
   @doc("開催日付の範囲終了日をYYYY-MM-DD形式で指定します。省略可。")
   until?: string;
+  @query
   @doc("追録・附録を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。")
   supplementAndAppendix?: boolean;
+  @query
   @doc("目次・索引を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。")
   contentsAndIndex?: boolean;
+  @query
   @doc("検索対象箇所を指定します。\"冒頭\",\"本文\",\"冒頭・本文\"のいずれかを指定可能です。省略時は\"冒頭・本文\"となります。")
   searchRange?: SearchRange;
+  @query
   @doc("閉会中の会議録を限定検索するかを指定します。省略時はfalse（限定しない）となります。")
   closing?: boolean;
+  @query
   @doc("発言番号を整数で指定します。完全一致検索。省略可。")
   speechNumber?: int32;
+  @query
   @doc("発言者肩書きを部分一致で指定します。省略可。")
   speakerPosition?: string;
+  @query
   @doc("発言者所属会派を部分一致で指定します。省略可。")
   speakerGroup?: string;
+  @query
   @doc("発言者役割を指定します。\"証人\",\"参考人\",\"公述人\"のいずれかを指定可能です。省略可。")
   speakerRole?: SpeakerRole;
+  @query
   @doc("発言IDを\"issueID_発言番号\"形式で指定します。完全一致検索。省略可。")
   speechID?: string;
+  @query
   @doc("会議録IDを21桁の英数字で指定します。完全一致検索。省略可。")
   issueID?: string;
+  @query
   @doc("国会回次の開始回を指定します。省略可。")
   sessionFrom?: int32;
+  @query
   @doc("国会回次の終了回を指定します。省略可。")
   sessionTo?: int32;
+  @query
   @doc("号数の開始号を指定します。省略可。")
   issueFrom?: int32;
+  @query
   @doc("号数の終了号を指定します。省略可。")
   issueTo?: int32;
+  @query
   @doc("応答形式を指定します。'xml'または'json'。省略時は'json'となります。")
   recordPacking?: "json" | "xml" = "json";
 }
@@ -239,7 +262,7 @@ model ErrorResponse {
 
 @route("/api")
 interface Api {
-  @route("/meeting_list") @get meetingList(@query query: SearchParams): MeetingListResponse;
-  @route("/meeting") @get meeting(@query query: SearchParams): MeetingResponse;
-  @route("/speech") @get speech(@query query: SearchParams): SpeechResponse;
+  @route("/meeting_list") @get meetingList(...SearchParams): MeetingListResponse;
+  @route("/meeting") @get meeting(...SearchParams): MeetingResponse;
+  @route("/speech") @get speech(...SearchParams): SpeechResponse;
 }
