@@ -4,6 +4,8 @@
 
 [https://kokkai.ndl.go.jp/api.html](https://kokkai.ndl.go.jp/api.html)
 
+スキーマは、[https://yyyoichi.github.io/kokkai-api-schema/schema/openapi.yaml](https://yyyoichi.github.io/kokkai-api-schema/schema/openapi.yaml) です。
+
 ## Development
 
 生成コマンド: `tsp compile main.tsp --emit @typespec/openapi3 --output-dir=docs`
