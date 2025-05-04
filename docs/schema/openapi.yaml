@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: 国会会議録検索システム検索用API
+  title: 【非公式】国会会議録検索システム　検索用API
   version: 0.0.0
 tags: []
 paths:

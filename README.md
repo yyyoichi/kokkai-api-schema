@@ -6,4 +6,4 @@
 
 ## Development
 
-生成コマンド: `tsp compile main.tsp --emit @typespec/openapi3 --output-dir=dist`
+生成コマンド: `tsp compile main.tsp --emit @typespec/openapi3 --output-dir=docs`
