@@ -7,6 +7,7 @@ paths:
   /api/meeting:
     get:
       operationId: Api_meeting
+      description: 会議単位出力
       parameters:
         - $ref: '#/components/parameters/SearchParams.startRecord'
         - $ref: '#/components/parameters/SearchParams.maximumRecords'
@@ -37,10 +38,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MeetingResponse'
+                anyOf:
+                  - $ref: '#/components/schemas/MeetingResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
   /api/meeting_list:
     get:
       operationId: Api_meetingList
+      description: 会議単位簡易出力
       parameters:
         - $ref: '#/components/parameters/SearchParams.startRecord'
         - $ref: '#/components/parameters/SearchParams.maximumRecords'
@@ -71,10 +75,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MeetingListResponse'
+                anyOf:
+                  - $ref: '#/components/schemas/MeetingListResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
   /api/speech:
     get:
       operationId: Api_speech
+      description: 発言単位出力
       parameters:
         - $ref: '#/components/parameters/SearchParams.startRecord'
         - $ref: '#/components/parameters/SearchParams.maximumRecords'
@@ -105,7 +112,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SpeechResponse'
+                anyOf:
+                  - $ref: '#/components/schemas/SpeechResponse'
+                  - $ref: '#/components/schemas/ErrorResponse'
 components:
   parameters:
     SearchParams.any:

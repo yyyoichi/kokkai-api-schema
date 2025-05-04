@@ -262,7 +262,10 @@ model ErrorResponse {
 
 @route("/api")
 interface Api {
+  @doc("会議単位簡易出力")
   @route("/meeting_list") @get meetingList(...SearchParams): MeetingListResponse | ErrorResponse;
+  @doc("会議単位出力")
   @route("/meeting") @get meeting(...SearchParams): MeetingResponse | ErrorResponse;
+  @doc("発言単位出力")
   @route("/speech") @get speech(...SearchParams): SpeechResponse | ErrorResponse;
 }
