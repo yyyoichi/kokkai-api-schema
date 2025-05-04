@@ -262,7 +262,7 @@ model ErrorResponse {
 
 @route("/api")
 interface Api {
-  @route("/meeting_list") @get meetingList(...SearchParams): MeetingListResponse;
-  @route("/meeting") @get meeting(...SearchParams): MeetingResponse;
-  @route("/speech") @get speech(...SearchParams): SpeechResponse;
+  @route("/meeting_list") @get meetingList(...SearchParams): MeetingListResponse | ErrorResponse;
+  @route("/meeting") @get meeting(...SearchParams): MeetingResponse | ErrorResponse;
+  @route("/speech") @get speech(...SearchParams): SpeechResponse | ErrorResponse;
 }
