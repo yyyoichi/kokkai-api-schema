@@ -1,0 +1,605 @@
+openapi: 3.1.0
+info:
+  title: 国会会議録検索システム検索用API
+  version: 0.0.0
+tags: []
+paths:
+  /api/meeting:
+    get:
+      operationId: Api_meeting
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchParams'
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingResponse'
+  /api/meeting_list:
+    get:
+      operationId: Api_meetingList
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchParams'
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingListResponse'
+  /api/speech:
+    get:
+      operationId: Api_speech
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchParams'
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+    ImageKind:
+      type: string
+      enum:
+        - 会議録
+        - 目次
+        - 索引
+        - 附録
+        - 追録
+      description: イメージ種別
+    MeetingListResponse:
+      type: object
+      required:
+        - numberOfRecords
+        - numberOfReturn
+        - startRecord
+        - nextRecordPosition
+        - meetingRecord
+      properties:
+        numberOfRecords:
+          type: integer
+          format: int32
+          description: 総結果件数
+        numberOfReturn:
+          type: integer
+          format: int32
+          description: 返戻件数
+        startRecord:
+          type: integer
+          format: int32
+          description: 開始位置
+        nextRecordPosition:
+          anyOf:
+            - type: integer
+              format: int32
+            - type: 'null'
+          description: 次開始位置
+        meetingRecord:
+          type: array
+          items:
+            type: object
+            required:
+              - issueID
+              - imageKind
+              - searchObject
+              - session
+              - nameOfHouse
+              - nameOfMeeting
+              - issue
+              - date
+              - closing
+              - speechRecord
+              - meetingURL
+              - pdfURL
+            properties:
+              issueID:
+                type: string
+                description: 発言ID。"issueID_発言番号"形式。
+              imageKind:
+                allOf:
+                  - $ref: '#/components/schemas/ImageKind'
+                description: 資料種別。
+              searchObject:
+                type: integer
+                format: int32
+                description: 検索対象箇所。
+              session:
+                type: integer
+                format: int32
+                description: 国会回次。
+              nameOfHouse:
+                allOf:
+                  - $ref: '#/components/schemas/NameOfHouse'
+                description: 院名。
+              nameOfMeeting:
+                type: string
+                description: 会議名。
+              issue:
+                type: string
+                description: 号数。"第issue号"形式。
+              date:
+                type: string
+                description: 開催日付 (YYYY-MM-DD)。
+              closing:
+                anyOf:
+                  - type: boolean
+                  - type: 'null'
+                description: 閉会中フラグ。
+              speechRecord:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MeetingListSpeechRecord'
+                description: 発言リスト。
+              meetingURL:
+                type: string
+                description: 会議録テキスト表示画面へのURL。
+              pdfURL:
+                anyOf:
+                  - type: string
+                  - type: 'null'
+                description: 会議録PDF表示画面へのURL。
+    MeetingListSpeechRecord:
+      type: object
+      required:
+        - speechID
+        - speechOrder
+        - speaker
+        - speechURL
+      properties:
+        speechID:
+          type: string
+          description: 発言ID。"issueID_発言番号"形式。
+        speechOrder:
+          type: integer
+          format: int32
+          description: 発言順序。
+        speaker:
+          anyOf:
+            - type: string
+              enum:
+                - 会議録情報
+            - type: string
+          description: 発言者名。
+        speechURL:
+          type: string
+          description: 発言テキストへのURL。
+    MeetingResponse:
+      type: object
+      required:
+        - numberOfRecords
+        - numberOfReturn
+        - startRecord
+        - nextRecordPosition
+        - meetingRecord
+      properties:
+        numberOfRecords:
+          type: integer
+          format: int32
+          description: 総結果件数
+        numberOfReturn:
+          type: integer
+          format: int32
+          description: 返戻件数
+        startRecord:
+          type: integer
+          format: int32
+          description: 開始位置
+        nextRecordPosition:
+          anyOf:
+            - type: integer
+              format: int32
+            - type: 'null'
+          description: 次開始位置
+        meetingRecord:
+          type: array
+          items:
+            type: object
+            required:
+              - issueID
+              - imageKind
+              - searchObject
+              - session
+              - nameOfHouse
+              - nameOfMeeting
+              - issue
+              - date
+              - closing
+              - speechRecord
+              - meetingURL
+              - pdfURL
+            properties:
+              issueID:
+                type: string
+                description: 発言ID。"issueID_発言番号"形式。
+              imageKind:
+                allOf:
+                  - $ref: '#/components/schemas/ImageKind'
+                description: 資料種別。
+              searchObject:
+                type: integer
+                format: int32
+                description: 検索対象箇所。
+              session:
+                type: integer
+                format: int32
+                description: 国会回次。
+              nameOfHouse:
+                allOf:
+                  - $ref: '#/components/schemas/NameOfHouse'
+                description: 院名。
+              nameOfMeeting:
+                type: string
+                description: 会議名。
+              issue:
+                type: string
+                description: 号数。"第issue号"形式。
+              date:
+                type: string
+                description: 開催日付 (YYYY-MM-DD)。
+              closing:
+                anyOf:
+                  - type: boolean
+                  - type: 'null'
+                description: 閉会中フラグ。
+              speechRecord:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MeetingSpeechRecord'
+                description: 発言リスト。
+              meetingURL:
+                type: string
+                description: 会議録テキスト表示画面へのURL。
+              pdfURL:
+                anyOf:
+                  - type: string
+                  - type: 'null'
+                description: 会議録PDF表示画面へのURL。
+    MeetingSpeechRecord:
+      type: object
+      required:
+        - speechID
+        - speechOrder
+        - speaker
+        - speakerYomi
+        - speakerGroup
+        - speakerPosition
+        - speakerRole
+        - speech
+        - startPage
+        - createTime
+        - updateTime
+        - speechURL
+      properties:
+        speechID:
+          type: string
+          description: 発言ID。"issueID_発言番号"形式。
+        speechOrder:
+          type: integer
+          format: int32
+          description: 発言順序。
+        speaker:
+          anyOf:
+            - type: string
+              enum:
+                - 会議録情報
+            - type: string
+          description: 発言者名。
+        speakerYomi:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 発言者名の読み仮名。
+        speakerGroup:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 発言者の所属会派。
+        speakerPosition:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 発言者の肩書き。
+        speakerRole:
+          anyOf:
+            - $ref: '#/components/schemas/SpeakerRole'
+            - type: 'null'
+          description: 発言者の役割。
+        speech:
+          type: string
+          description: 発言内容。
+        startPage:
+          type: integer
+          format: int32
+          description: 発言が開始されるページ番号。
+        createTime:
+          type: string
+          description: レコード作成日時 (YYYY-MM-DD HH:mm:ss)。
+        updateTime:
+          type: string
+          description: レコード更新日時 (YYYY-MM-DD HH:mm:ss)。
+        speechURL:
+          type: string
+          description: 発言テキストへのURL。
+    NameOfHouse:
+      type: string
+      enum:
+        - 衆議院
+        - 参議院
+        - 両院
+        - 両院協議会
+      description: 院名
+    SearchParams:
+      type: object
+      properties:
+        startRecord:
+          type: integer
+          format: int32
+          description: 検索結果の開始位置を指定します。省略時は1が指定されたものとして検索します。
+        maximumRecords:
+          type: integer
+          format: int32
+          description: 返戻件数の最大数を指定します。（会議単位簡易出力・発言単位出力:1～100、会議単位出力:1～10）。省略時はデフォルト件数で返戻します。
+        nameOfHouse:
+          allOf:
+            - $ref: '#/components/schemas/NameOfHouse'
+          description: 検索対象の院名を指定します。省略可。
+        nameOfMeeting:
+          type: string
+          description: 検索対象の会議名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。
+        any:
+          type: string
+          description: 発言部分を検索対象とするキーワードを指定します。複数語はスペース区切りでAND検索になります。省略可。
+        speaker:
+          type: string
+          description: 発言者名を部分一致で指定します。複数語はスペース区切りでOR検索になります。省略可。
+        from:
+          type: string
+          description: 開催日付の範囲開始日をYYYY-MM-DD形式で指定します。省略可。
+        until:
+          type: string
+          description: 開催日付の範囲終了日をYYYY-MM-DD形式で指定します。省略可。
+        supplementAndAppendix:
+          type: boolean
+          description: 追録・附録を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。
+        contentsAndIndex:
+          type: boolean
+          description: 目次・索引を検索対象に限定するかを指定します。省略時はfalse（限定しない）となります。
+        searchRange:
+          allOf:
+            - $ref: '#/components/schemas/SearchRange'
+          description: 検索対象箇所を指定します。"冒頭","本文","冒頭・本文"のいずれかを指定可能です。省略時は"冒頭・本文"となります。
+        closing:
+          type: boolean
+          description: 閉会中の会議録を限定検索するかを指定します。省略時はfalse（限定しない）となります。
+        speechNumber:
+          type: integer
+          format: int32
+          description: 発言番号を整数で指定します。完全一致検索。省略可。
+        speakerPosition:
+          type: string
+          description: 発言者肩書きを部分一致で指定します。省略可。
+        speakerGroup:
+          type: string
+          description: 発言者所属会派を部分一致で指定します。省略可。
+        speakerRole:
+          allOf:
+            - $ref: '#/components/schemas/SpeakerRole'
+          description: 発言者役割を指定します。"証人","参考人","公述人"のいずれかを指定可能です。省略可。
+        speechID:
+          type: string
+          description: 発言IDを"issueID_発言番号"形式で指定します。完全一致検索。省略可。
+        issueID:
+          type: string
+          description: 会議録IDを21桁の英数字で指定します。完全一致検索。省略可。
+        sessionFrom:
+          type: integer
+          format: int32
+          description: 国会回次の開始回を指定します。省略可。
+        sessionTo:
+          type: integer
+          format: int32
+          description: 国会回次の終了回を指定します。省略可。
+        issueFrom:
+          type: integer
+          format: int32
+          description: 号数の開始号を指定します。省略可。
+        issueTo:
+          type: integer
+          format: int32
+          description: 号数の終了号を指定します。省略可。
+        recordPacking:
+          type: string
+          enum:
+            - json
+            - xml
+          description: 応答形式を指定します。'xml'または'json'。省略時は'json'となります。
+          default: json
+    SearchRange:
+      type: string
+      enum:
+        - 冒頭
+        - 本文
+        - 冒頭・本文
+      description: 検索対象箇所
+    SpeakerRole:
+      type: string
+      enum:
+        - 証人
+        - 参考人
+        - 公述人
+      description: 発言者役割
+    SpeechRecord:
+      type: object
+      required:
+        - speechID
+        - issueID
+        - imageKind
+        - searchObject
+        - session
+        - nameOfHouse
+        - nameOfMeeting
+        - issue
+        - date
+        - closing
+        - speechOrder
+        - speaker
+        - speakerYomi
+        - speakerGroup
+        - speakerPosition
+        - speakerRole
+        - speech
+        - startPage
+        - speechURL
+        - meetingURL
+        - pdfURL
+      properties:
+        speechID:
+          type: string
+          description: 発言ID。"issueID_発言番号"形式。
+        issueID:
+          type: string
+          description: 会議録ID。
+        imageKind:
+          allOf:
+            - $ref: '#/components/schemas/ImageKind'
+          description: 資料種別。
+        searchObject:
+          type: integer
+          format: int32
+          description: 検索対象箇所。
+        session:
+          type: integer
+          format: int32
+          description: 国会回次。
+        nameOfHouse:
+          allOf:
+            - $ref: '#/components/schemas/NameOfHouse'
+          description: 院名。
+        nameOfMeeting:
+          type: string
+          description: 会議名。
+        issue:
+          type: string
+          description: 号数。"第issue号"形式。
+        date:
+          type: string
+          description: 開催日付 (YYYY-MM-DD)。
+        closing:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          description: 閉会中フラグ。nullの場合あり。
+        speechOrder:
+          type: integer
+          format: int32
+          description: 発言順序。
+        speaker:
+          anyOf:
+            - type: string
+              enum:
+                - 会議録情報
+            - type: string
+          description: 発言者名。
+        speakerYomi:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 発言者名の読み仮名。nullの場合あり。
+        speakerGroup:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 発言者の所属会派。nullの場合あり。
+        speakerPosition:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 発言者の肩書き。nullの場合あり。
+        speakerRole:
+          anyOf:
+            - $ref: '#/components/schemas/SpeakerRole'
+            - type: 'null'
+          description: 発言者の役割。nullの場合あり。
+        speech:
+          type: string
+          description: 発言内容。
+        startPage:
+          type: integer
+          format: int32
+          description: 発言が開始されるページ番号。
+        speechURL:
+          type: string
+          description: 発言テキストへのURL。
+        meetingURL:
+          type: string
+          description: 会議録テキスト表示画面へのURL。
+        pdfURL:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 会議録PDF表示画面へのURL。nullの場合あり。
+    SpeechResponse:
+      type: object
+      required:
+        - numberOfRecords
+        - numberOfReturn
+        - startRecord
+        - nextRecordPosition
+        - speechRecord
+      properties:
+        numberOfRecords:
+          type: integer
+          format: int32
+          description: 総結果件数
+        numberOfReturn:
+          type: integer
+          format: int32
+          description: 返戻件数
+        startRecord:
+          type: integer
+          format: int32
+          description: 開始位置
+        nextRecordPosition:
+          anyOf:
+            - type: integer
+              format: int32
+            - type: 'null'
+          description: 次開始位置
+        speechRecord:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpeechRecord'
+servers:
+  - url: https://kokkai.ndl.go.jp
+    description: 国会会議録検索システム 検索用APIのエンドポイント
+    variables: {}
